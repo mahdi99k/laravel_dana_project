@@ -1,0 +1,386 @@
+<script>
+	import Input from '../../../forms/Input.svelte';
+	import SearchSelect from '../../../forms/SearchSelect.svelte';
+	import FileInput from '../../../forms/FileInput.svelte';
+	import axios from 'axios';
+	import { API_URL, YEARS, closeLoading, getCookie, loading } from '../../../../main';
+	import { fade } from 'svelte/transition';
+	export let score;
+	let isUploading = false;
+	let error = false;
+	let type = score.attributes.data.activity_type,
+		description = score.attributes.data.description;
+	let activities = {
+		employment: { best_amount: score.attributes.data.best_amount },
+		knowledge: {
+			// rank: score.attributes.data.rank,
+			participation: score.attributes.data.participation,
+			name: score.attributes.data.name,
+			production_year: score.attributes.data.production_year,
+			production_level: score.attributes.data.production_level
+		},
+		experience: {
+			start_date: score.attributes.data.start_date,
+			end_date: score.attributes.data.end_date,
+			company: score.attributes.data.company,
+			act_type: score.attributes.data.act_type,
+			contract: score.attributes.data.contract,
+			contract_details: score.attributes.data.contract_details,
+			post: score.attributes.data.post
+		},
+		postdoctor: {
+			type: score.attributes.data.type,
+			start_date: score.attributes.data.start_date,
+			end_date: score.attributes.data.end_date,
+			status: score.attributes.data.status
+		},
+		base_certificate: {
+			hour: score.attributes.data.hour,
+			course: score.attributes.data.course,
+			place: score.attributes.data.place
+		},
+		pro_certificate: {
+			hour: score.attributes.data.hour,
+			course: score.attributes.data.course,
+			place: score.attributes.data.place
+		},
+		assistant: {
+			edu_year: score.attributes.data.edu_year,
+			half_year: score.attributes.data.half_year,
+			hour: score.attributes.data.hour
+		},
+		internship: {
+			plan: score.attributes.data.plan,
+			title: score.attributes.data.title,
+			start_date: score.attributes.data.start_date,
+			end_date: score.attributes.data.end_date,
+			hour: score.attributes.data.hour
+		},
+		history: {
+			place: score.attributes.data.place,
+			half_year: score.attributes.data.half_year,
+			year: score.attributes.data.year,
+			hour: score.attributes.data.hour
+		},
+		skill_comp: {
+			title: score.attributes.data.title,
+			date: score.attributes.data.date,
+			rank: score.attributes.data.rank
+			// participation: score.attributes.data.participation
+		}
+	};
+
+	let filter = score.attributes.filter;
+	import { createEventDispatcher } from 'svelte';
+	import DateInput from '../../../forms/DateInput.svelte';
+	let dispatch = createEventDispatcher();
+	let myBtn;
+	let types = [
+		['برگزیدگان آزمون استخدام شرکت‌های خصوصی و دانش‌بنیان', 'employment'],
+		['مشارکت موثر در تولید محصول دانش بنیان در شرکت دانش بنیان', 'knowledge'],
+		['سابقه اشتغال مرتبط با زمینه استعدادی با ارائة سوابق بيمه', 'experience'],
+		['دوره پسادکترا و فرصت مطالعاتی', 'postdoctor'],
+		['گواهینامه­ های پایه معتبر مهارتی', 'base_certificate'],
+		['گواهینامه­ های تخصصی معتبر مهارتی', 'pro_certificate'],
+		['دستياري آموزشی، پژوهشی و فناورانه', 'assistant'],
+		['شرکت در برنامه‌های کارآموزی و کارورزی', 'internship'],
+		['سابقه تدریس', 'history'],
+		['برگزيدگي در مسابقات مهارتي', 'skill_comp']
+	];
+	function createBtn(node) {
+		myBtn = node;
+	}
+	const handleClickSave = async () => {
+		error = false;
+		let active_type = activities[filter];
+		console.log(active_type, 'aaaaaaaaaaaaa');
+		Object.keys(active_type).forEach((value) => {
+			if (active_type[value] == null || !active_type[value]) {
+				if (filter != 'internship' && value != 'hour') {
+					error = 'لطفا فیلدهای خواسته شده را پر کنید';
+					myBtn.innerHTML = 'ذخیره';
+					return;
+				}
+			}
+		});
+		if (!file1) {
+			error = 'لطفا فایل خواسته شده را بارگذاری کنید';
+			myBtn.innerHTML = 'ذخیره';
+			return;
+		}
+		if (error == '' || !error) {
+			loading(myBtn);
+			let data = active_type;
+			data.activity_type = type;
+			data.description = description;
+			const api_token = getCookie('api_token');
+
+			isUploading = true;
+			let params = {
+				filter: filter,
+				cert: 'skill',
+				type: 'activities',
+				data,
+				file1
+			};
+			await axios
+				.post(`${API_URL}/updateScore/${score.id}`, params, {
+					headers: { Authorization: `Bearer ${api_token}` }
+				})
+				.then(function (response) {
+					dispatch('handleClick', response.data.data);
+				});
+		}
+	};
+	const handleClickCancel = () => {
+		dispatch('handleClickCancel');
+	};
+
+	//SEND FILE
+	let file1 = score.attributes.file1;
+	let years = [];
+	for (let i = 1382; i < 1402; i++) {
+		years.push(`${i - 1} - ${i}`);
+	}
+	console.log(filter);
+	const changeType = (detail) => {
+		type = detail[0];
+		filter = detail[1];
+		activities = {
+			employment: { best_amount: null },
+			knowledge: {
+				// rank: null,
+				participation: null,
+				name: null,
+				production_year: null,
+				production_level: null
+			},
+			experience: {
+				start_date: null,
+				end_date: null,
+				company: null,
+				act_type: null,
+				contract: null,
+				contract_details: null,
+				post: null
+			},
+			postdoctor: { start_date: null, end_date: null, status: null , type:null },
+			base_certificate: { hour: null, course: null, place: null },
+			pro_certificate: { hour: null, course: null, place: null },
+			assistant: { edu_year: null, half_year: null, hour: null },
+			internship: { plan: null, title: null, start_date: null, end_date: null, hour: null },
+			history: { place: null, half_year: null, year: null, hour: null },
+			skill_comp: { title: null, date: null, rank: null /* participation: null */ }
+		};
+	};
+</script>
+
+<form
+	on:submit|preventDefault={handleClickSave}
+	in:fade={{ duration: 200, delay: 200 }}
+	out:fade={{ duration: 200 }}
+>
+	<div class="flex flex-wrap pb-20">
+		<SearchSelect
+			on:select={({ detail }) => {
+				changeType(detail);
+			}}
+			multi={true}
+			title={type}
+			data={types}
+			search={true}
+			all={false}
+			label="نوع فعالیت"
+		/>
+		{#if filter == 'employment'}
+			<Input bind:val={activities.employment.best_amount} label="تعداد شایستگی برتر" />
+		{:else if filter == 'knowledge'}
+			<!-- <Input bind:val={activities.knowledge.rank} label="رتبه" /> -->
+			<Input bind:val={activities.knowledge.participation} label="سهم مشارکت" />
+			<Input bind:val={activities.knowledge.name} label="نام محصول" />
+			<SearchSelect
+				label="سال تولید"
+				title={activities.knowledge.production_year}
+				on:select={({ detail }) => (activities.knowledge.production_year = detail)}
+				required={true}
+				responsive={true}
+				search={true}
+				all={false}
+				data={YEARS}
+			/>
+			<Input bind:val={activities.knowledge.production_level} label="میزان تولید" />
+		{:else if filter == 'experience'}
+			<DateInput bind:val={activities.experience.start_date} label="تاریخ شروع" />
+			<Input bind:val={activities.experience.company} label="نام شرکت/سازمان" />
+			<Input bind:val={activities.experience.act_type} label="نوع فعاليت در شرکت/سازمان" />
+			<SearchSelect
+				on:select={({ detail }) => (activities.experience.contract = detail)}
+				data={['رسمی', 'قراردادی', 'پیمانی', 'پروژه ای', 'سایر', ' هیئت علمی']}
+				search={false}
+				title={activities.experience.contract}
+				all={false}
+				responsive={true}
+				label="نوع قرارداد"
+			/>
+			{#if activities.experience.contract.includes('سایر')}
+				<Input bind:val={activities.experience.contract_details} label="نوع قرارداد" />
+			{/if}
+			<Input bind:val={activities.experience.post} label="عنوان پست سازمانی" />
+		{:else if filter == 'postdoctor'}
+			<SearchSelect
+				on:select={({ detail }) => (activities.postdoctor.type = detail)}
+				data={['فرصت مطالعاتی', 'پسادکترا']}
+				search={false}
+				all={false}
+				responsive={true}
+				title={activities.postdoctor.type}
+				label="نوع دوره"
+			/>
+			<DateInput bind:val={activities.postdoctor.start_date} label="تاریخ شروع" />
+			<DateInput bind:val={activities.postdoctor.start_date} label="تاریخ پایان" />
+			<SearchSelect
+				on:select={({ detail }) => (activities.postdoctor.status = detail)}
+				data={['با تایید بنیاد', 'سایز']}
+				search={false}
+				title={activities.postdoctor.status}
+				all={false}
+				responsive={true}
+				label="وضعیت تایید دوره"
+			/>
+		{:else if filter == 'pro_certificate'}
+			<Input bind:val={activities.pro_certificate.hour} number={true} label="تعداد دوره:(به عدد)" />
+			<Input bind:val={activities.pro_certificate.course} label="نام دوره" />
+			<Input bind:val={activities.pro_certificate.place} label="مرکز برگزارکننده دوره" />
+		{:else if filter == 'base_certificate'}
+			<Input
+				bind:val={activities.base_certificate.hour}
+				number={true}
+				label="تعداد ساعت دوره:(به عدد)"
+			/>
+			<Input bind:val={activities.base_certificate.course} label="نام دوره" />
+			<Input bind:val={activities.base_certificate.place} label="مرکز برگزارکننده دوره" />
+		{:else if filter == 'assistant'}
+			<SearchSelect
+				label="سال"
+				title={activities.assistant.year}
+				on:select={({ detail }) => (activities.assistant.year = detail)}
+				required={true}
+				responsive={true}
+				search={true}
+				all={false}
+				data={YEARS}
+			/>
+			<Input bind:val={activities.assistant.hour} number={true} label="تعداد دوره:(به عدد)" />
+			<SearchSelect
+				on:select={({ detail }) => (activities.assistant.half_year = detail)}
+				data={['اول', 'دوم']}
+				search={false}
+				title={activities.assistant.half_year}
+				all={false}
+				responsive={true}
+				label="نیم سال تحصیلی"
+			/>
+		{:else if filter == 'internship'}
+			<SearchSelect
+				on:select={({ detail }) => (activities.internship.plan = detail)}
+				data={['کارآموزی', 'کارورزی']}
+				search={false}
+				all={false}
+				responsive={true}
+				title={activities.internship.plan}
+				label="نوع برنامه"
+			/>
+			<Input bind:val={activities.internship.title} label="عنوان برنامه" />
+			<DateInput bind:val={activities.internship.start_date} label="تاریخ شروع" />
+			<DateInput bind:val={activities.internship.end_date} label="تاریخ پایان" />
+			<Input
+				bind:val={activities.internship.hour}
+				number={true}
+				required={false}
+				label="تعداد ساعت فعاليت،همکاري يا حضور در دوره:(به عدد)"
+			/>
+		{:else if filter == 'history'}
+			<SearchSelect
+				on:select={({ detail }) => (activities.history.place = detail)}
+				data={['تدریس خارج از دانشگاه', 'تدریس در دانشگاه']}
+				search={false}
+				all={false}
+				title={activities.history.place}
+				responsive={true}
+				label="محل تدریس"
+			/>
+			<SearchSelect
+				on:select={({ detail }) => (activities.history.half_year = detail)}
+				data={['اول', 'دوم']}
+				search={false}
+				all={false}
+				title={activities.history.half_year}
+				responsive={true}
+				label="نیم سال تحصیلی"
+			/>
+			<SearchSelect
+				on:select={({ detail }) => (activities.history.year = detail)}
+				data={years}
+				search={false}
+				all={false}
+				responsive={true}
+				title={activities.history.year}
+				label="سال تحصیلی"
+			/>
+			<Input
+				bind:val={activities.history.hour}
+				label="تعداد ساعت فعاليت،همکاري يا حضور در دوره:(به عدد)"
+			/>
+		{:else if filter == 'skill_comp'}
+			<Input bind:val={activities.skill_comp.title} label="عنوان مسابقه" />
+			<SearchSelect
+				on:select={({ detail }) => (activities.skill_comp.rank = detail)}
+				data={['رتبه اول', 'رتبه دوم', 'رتبه سوم']}
+				search={false}
+				all={false}
+				title={activities.skill_comp.rank}
+				responsive={true}
+				label="رتبه"
+			/>
+			<DateInput bind:val={activities.skill_comp.date} label="تاریخ برگزاری" />
+			<!-- <Input bind:val={activities.skill_comp.participation} label="سهم مشارکت" /> -->
+		{/if}
+		{#if filter}
+			<Input bind:val={description} label="توضیح نوع فعالیت " required={false} />
+		{/if}
+		<div class="w-full px-2 mb-4">
+			<FileInput
+				name="activities_file"
+				bind:isUploading
+				label="فایل مورد نظر را آپلود کنید"
+				size={500}
+				url="/scoreUpload"
+				sizeLabel="کیلوبایت"
+				status={100}
+				type={['jpg', 'png', 'pdf', 'webp', 'jpeg']}
+				on:send={({ detail }) => {
+					file1 = detail;
+				}}
+			/>
+		</div>
+	</div>
+	{#if error}
+		<p class="-text--error">{error}</p>
+	{/if}
+	<div class="flex items-center ms-auto lg:w-5/12 sm:w-8/12 w-full">
+		<div class="w-1/2 px-4">
+			<button
+				type="button"
+				class="rounded-xl block w-full border border-button--primary text-lg h-14 text-white"
+				on:click={handleClickCancel}>انصراف</button
+			>
+		</div>
+		<div class="w-1/2 px-4">
+			<button
+				type="submit"
+				class="rounded-xl block w-full bg--primary text-lg h-14 text-white"
+				use:createBtn>ذخیره</button
+			>
+		</div>
+	</div>
+</form>

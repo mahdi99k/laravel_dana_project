@@ -1,0 +1,141 @@
+# Webalizer V2.23-08 Incremental Data - 01/04/2024 10:33:31
+2024 1 4 10 33 31
+10 5 3 1 2 3 4677 6 4 0
+2 2 6 1 4
+2 1 927 1 1 1
+0 0 0 0 0 0
+0 0 0 0 0 0
+8 4 3750 2 5 3
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+6 3 2823 4
+0 0 0 0
+2 1 927 1
+0 0 0 0
+0 0 0 0
+0 0 0 0
+2 1 927 1
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0
+0
+0
+5
+0
+0
+0
+0
+0
+0
+0
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+4
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+# -urls- 
+/
+0 5 0 2460 4 1
+# End Of Table - urls
+# -sites- (monthly)
+5.116.35.146
+0 2 1 927 1 1704119850
+/
+5.112.139.247
+0 2 1 927 1 1704357152
+/
+5.112.136.249
+0 6 3 2823 2 1704364411
+/
+# End Of Table - sites (monthly)
+# -sites- (daily)
+5.112.139.247
+0 2 1 927 1 1704357152
+/
+5.112.136.249
+0 6 3 2823 2 1704364411
+/
+# End Of Table - sites (daily)
+# -referrers- 
+- (Direct Request)
+0 6
+https://inova.inova.ir/
+0 4
+# End Of Table - referrers
+# -agents- 
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+0 2
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0
+0 4
+Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36
+0 4
+# End Of Table - agents
+# -search strings- 
+# End Of Table - search strings
+# -usernames- 
+# End Of Table - usernames

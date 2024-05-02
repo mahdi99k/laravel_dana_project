@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: bold;
+	src: url('/fonts/iransans/eot/IRANSansWeb(FaNum)_Bold.eot');
+	src: url('/fonts/iransans/eot/IRANSansWeb(FaNum)_Bold.eot?#iefix') format('embedded-opentype'),
+		/* IE6-8 */ url('/fonts/iransans/woff2/IRANSansWeb(FaNum)_Bold.woff2') format('woff2'),
+		/* FF39+,Chrome36+, Opera24+*/ url('/fonts/iransans/woff/IRANSansWeb(FaNum)_Bold.woff')
+			format('woff'),
+		/* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('/fonts/iransans/ttf/IRANSansWeb(FaNum)_Bold.ttf')
+			format('truetype');
+}
+
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: normal;
+	src: url('/fonts/iransans/eot/IRANSansWeb(FaNum).eot');
+	src: url('/fonts/iransans/eot/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),
+		/* IE6-8 */ url('/fonts/iransans/woff2/IRANSansWeb(FaNum).woff2') format('woff2'),
+		/* FF39+,Chrome36+, Opera24+*/ url('/fonts/iransans/woff/IRANSansWeb(FaNum).woff')
+			format('woff'),
+		/* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('/fonts/iransans/ttf/IRANSansWeb(FaNum).ttf')
+			format('truetype');
+}
+
+i.fi::before {
+	vertical-align: middle;
+}
+body {
+	color: #fff;
+	font-family: IRANsans;
+}
+.bg--primary {
+	background: linear-gradient(90deg, #559af3 -5.21%, #895aed 54.62%);
+}
+.bg--gray-03 {
+	background: rgba(142, 142, 142, 0.29);
+}
+.dir-ltr {
+	direction: ltr;
+}
+.h-18 {
+	height: 72px;
+}
+.style-type {
+	list-style-type: unset;
+	list-style-position: inside;
+}
+.tab-link.active {
+	background-color: #393939;
+	color: #d8b4fe;
+	border-radius: 8px;
+}
+.collapse-plus.purple > .collapse-title:after {
+	padding: 10px;
+	border-radius: 4px;
+	background-color: #895aed;
+	width: 48px;
+	height: 48px;
+	display: grid;
+	place-items: center;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.filter-opacity-50 {
+	filter: opacity(0.5);
+}
+
+/* SCROLLBAR */
+.purple-scrollbar::-webkit-scrollbar {
+	height: 7px;
+	width: 7px;
+}
+.purple-scrollbar::-webkit-scrollbar-track {
+	display: none;
+}
+.purple-scrollbar::-webkit-scrollbar-thumb {
+	background: #895aed;
+	border-radius: 25px;
+}
+.ratio-square {
+	aspect-ratio: 1 / 1;
+}
+/* DROPDOWN */
+.menu-btn {
+	background: #e0e0e0;
+	padding: 10px;
+	margin: 5px 0px 0px 0px;
+}
+
+.menu-btn:hover {
+	background: #000;
+	color: #fff;
+}
+
+.drop_container {
+	overflow: hidden;
+	max-height: 0;
+}
+
+.drop_container.show {
+	max-height: 300px;
+	transition: max-height 0.3s ease-in;
+}
+
+.drop_container.hide {
+	overflow: hidden;
+	max-height: 0;
+	transition: max-height 0.3s ease-out;
+}
+
+.drop_container > .item {
+	display: flex;
+	flex-direction: column;
+	margin-left: 10px;
+	padding: 10px 0px 0px 0px;
+}
+
+.custom-collapse-content {
+	height: 0;
+	transition: all 0.3s;
+	overflow: hidden;
+}
+.custom-collapse-input + div > label {
+	transition: all 0.3s;
+}
+.custom-collapse-input:checked + div > label {
+	transform: rotate(180deg);
+}
+.custom-collapse-input:checked + div + .custom-collapse-content {
+	height: 50px;
+}
+.list-container {
+	min-width: 700px;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+input[type='number'] {
+	-moz-appearance: textfield;
+}
